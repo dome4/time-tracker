@@ -1,6 +1,20 @@
 <button
   (click)="startClock()"
   class="btn btn-primary">Start</button>
+<button
+  (click)="stopClock()"
+  class="btn btn-primary">Stop</button>
 <p>
-  {{ clock.currentTime() }}
+  <label>Systemzeit: </label>
+  {{ this.currentTimeStamp }}
+</p>
+<p>
+  <label>Start: </label>
+  {{ this.startedAt }}
+  <br>
+  <label>Stop: </label>
+  {{ this.stopedAt }}
+  <br>
+  <label>Duration: </label>
+  {{ this.getDuration() }}
 </p>
