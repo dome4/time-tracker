@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GoogleDocsService} from './google-docs.service';
 import {ClockService} from './clock.service';
+import {Lap} from './lap.model';
 
 @Component({
   selector: 'app-clock',
@@ -9,76 +10,93 @@ import {ClockService} from './clock.service';
   providers: [GoogleDocsService, ClockService]
 })
 export class ClockComponent implements OnInit {
-  private currentTimeStamp: number;
-  private startedAt: number;
+  // globalStartedAt is the beginning of the stop watch
+  private globalStartedAt: number;
+
+  // started at is the beginning of the current lap
+  private lapStartedAt: number;
   private stopedAt: number;
+  private stopWatch;
+  private laps: Lap[];
 
   constructor(private googleService: GoogleDocsService, private clock: ClockService) { }
 
   ngOnInit() {
-    this.activateClock();
-    this.startedAt = 0;
-    this.stopedAt = 0;
-  }
 
-  startClock () {
-    // get milliseconds gibt nur die millis zurück, keine secs usw...
-    this.startedAt = this.currentTimeStamp;
+    // set both values to zero
+    this.resetClock();
 
-    console.log('date: ' + this.currentTimeStamp);
-
-    // gleicher Wert, ansonsten wird die Dauer negativ
-    this.stopedAt = this.currentTimeStamp;
-  }
-
-  stopClock () {
-    this.stopedAt = this.currentTimeStamp;
-  }
-
-  getDuration () {
-    return this.stopedAt - this.startedAt;
+    // initialize array of laps
+    this.laps = [];
   }
 
   /**
-   *  get the system time once per second
+   *  start stop watch
    */
-  activateClock(): void {
-    setInterval(() => {
-      this.currentTimeStamp = new Date().getTime();
-    }, 1000);
+  startClock (): void {
+    this.lapStartedAt = new Date().getTime();
+
+    // if global lapStartedAt is not initialized yet
+    if (this.globalStartedAt === 0) {
+      this.globalStartedAt = this.lapStartedAt;
+    }
+
+    this.stopedAt = new Date().getTime();
+    this.stopWatch = setInterval(() => {
+        // set the same value to prevent negative durations
+        this.stopedAt = new Date().getTime();
+      }, 1000);
   }
 
   /**
-   * format millis to readable string
-   * @param millis
+   *  stop stop watch
+   */
+  stopClock (): void {
+
+    // only if stop watch is running
+    if (this.stopWatch) {
+      this.stopedAt = new Date().getTime();
+      clearInterval(this.stopWatch);
+      this.stopWatch = false;
+    }
+  }
+
+  /**
+   *  set both values to zero
+   */
+  resetClock (): void {
+    this.lapStartedAt = 0;
+    this.stopedAt = 0;
+    this.globalStartedAt = 0;
+
+    // stop stop watch interval
+    if (this.stopWatch) {
+      clearInterval(this.stopWatch);
+    }
+  }
+
+  /**
+   *  get the current duration of the stop watch
    * @returns {{}}
    */
-  getReadableString (millis: number) {
-    const dur = {};
-    const units = [
-      {label: 'Millis',    mod: 1000},
-      {label: 'Sekunden',   mod: 60},
-      {label: 'Minuten',   mod: 60},
-      {label: 'Stunden',     mod: 24},
-      {label: 'Tage',      mod: 31}
-    ];
-    // calculate the individual unit values...
-    units.forEach(function(u){
-      millis = (millis - (dur[u.label] = (millis % u.mod))) / u.mod;
-    });
-    // convert object to a string representation...
-    const nonZero = function(u){ return dur[u.label]; };
-    dur.toString = function(){
-      return units
-        .reverse()
-        .filter(nonZero)
-        .map(function(u){
-          return dur[u.label] + ' ' + (dur[u.label] === 1 ? u.label.slice(0, -1) : u.label);
-        })
-        .join(', ');
-    };
+  getGlobalDuration () {
+    const dur = this.stopedAt - this.globalStartedAt;
     return dur;
   }
 
+  /**
+   *  save the duration of the current topic and start the next one
+   */
+  nextTopic () {
+    const currentTimeStamp = new Date().getTime();
 
+    // only if stop watch is active
+    if (this.stopWatch) {
+
+      this.laps.push(new Lap(this.lapStartedAt, currentTimeStamp));
+
+      // lapStartedAt set to the currentTimeStamp
+      this.lapStartedAt = currentTimeStamp;
+    }
+  }
 }

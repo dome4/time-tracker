@@ -1,13 +1,17 @@
 export class Lap {
-  public startTime: number;
-  public stopTime: number;
 
-  constructor (startTime: number) {
-    this.startTime = startTime;
-    this.stopTime = 0;
-  }
+  /**
+   *  constructor
+   * @param {number} startTime
+   * @param {number} stopTime
+   */
+  constructor (public startTime: number, public stopTime: number) {}
 
-  stop(time: number) {
-    this.stopTime = time;
+  /**
+   *  get duration of the lap
+   * @returns {number}
+   */
+  getDuration () {
+    return this.stopTime - this.startTime;
   }
 }
