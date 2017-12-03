@@ -1,53 +1,51 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <button
-        (click)="startClock()"
-        class="btn btn-primary">Start</button>
-      <button
-        (click)="stopClock()"
-        class="btn btn-primary">Stop</button>
-      <button
-        (click)="resetClock()"
-        class="btn btn-primary">Reset</button>
-      <p>
-        <label>Start: </label>
-        {{ this.globalStartedAt | date : 'HH:mm:ss' }}
-        <br>
-        <label>Duration: </label>
-        {{ this.getGlobalDuration() | date : 'HH:mm:ss' : 'UTC'}}
-      </p>
-      <button
-        (click)="nextTopic()"
-        class="btn btn-primary">Nächstes Thema (Runde)</button>
-    </div>
-    <div class="col-md-6">
-      <h3>+ / - Zeit</h3>
-      <div>
-        <div *ngFor="let lap of laps">
-          {{ lap.getDuration() | date : 'HH:mm:ss' : 'UTC' }}
-        </div>
+<div class="row">
+  <div class="col-md-6">
+    <button
+      (click)="startClock()"
+      class="btn btn-primary">Start</button>
+    <button
+      (click)="stopClock()"
+      class="btn btn-primary">Stop</button>
+    <button
+      (click)="resetClock()"
+      class="btn btn-primary">Reset</button>
+    <p>
+      <label>Start: </label>
+      {{ this.globalStartedAt | date : 'HH:mm:ss' }}
+      <br>
+      <label>Duration: </label>
+      {{ this.getGlobalDuration() | date : 'HH:mm:ss' : 'UTC'}}
+    </p>
+    <button
+      (click)="nextTopic()"
+      class="btn btn-primary">Nächstes Thema (Runde)</button>
+  </div>
+  <div class="col-md-6">
+    <h3>+ / - Zeit</h3>
+    <div>
+      <div *ngFor="let lap of laps">
+        {{ lap.getDuration() | date : 'HH:mm:ss' : 'UTC' }}
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Topic</th>
-            <th>Estimated Time</th>
-            <th>Needed Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let topic of topics">
-            <td>{{ topic.name }}</td>
-            <td>{{ topic.estimatedTime }}</td>
-            <td>{{ topic.neededTime }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Topic</th>
+          <th>Estimated Time</th>
+          <th>Needed Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let topic of topics">
+          <td>{{ topic.name }}</td>
+          <td>{{ topic.estimatedTime }}</td>
+          <td>{{ topic.neededTime }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

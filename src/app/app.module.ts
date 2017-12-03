@@ -4,12 +4,14 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ClockComponent } from './clock/clock.component';
+import { GooglesheetComponent } from './googlesheet/googlesheet.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ClockComponent
+    ClockComponent,
+    GooglesheetComponent
   ],
   imports: [
     BrowserModule
