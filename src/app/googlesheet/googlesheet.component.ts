@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {GoogleDocsService} from './google-docs.service';
-import {Topic} from '../clock/topic.model';
+import {Topic} from '../shared/topic.model';
 
 @Component({
   selector: 'app-googlesheet',
@@ -16,6 +16,14 @@ export class GooglesheetComponent implements OnInit {
 
   ngOnInit(): void {
     this.topics = this.gapiServerice.getTopics();
+
+    // update topics if service updates them
+    this.gapiServerice.topicsChanged.subscribe(
+      (topics: Topic[]) => {
+        this.topics = topics;
+        console.log(topics);
+      }
+    );
   }
 
   signIn(): void {

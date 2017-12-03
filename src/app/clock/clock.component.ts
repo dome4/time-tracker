@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {GoogleDocsService} from '../googlesheet/google-docs.service';
-import {ClockService} from './clock.service';
 import {Lap} from './lap.model';
-import {Topic} from './topic.model';
+import {Topic} from '../shared/topic.model';
 
 @Component({
   selector: 'app-clock',

@@ -1,12 +1,15 @@
-import {Topic} from '../clock/topic.model';
+import {Topic} from '../shared/topic.model';
 import {environment} from '../../environments/environment';
+import {EventEmitter} from '@angular/core';
 
 // Google API variable
 declare let gapi: any;
 
 export class GoogleDocsService {
 
-  private topics: Topic[];
+  topicsChanged = new EventEmitter<Topic[]>();
+
+  private topics: Topic[] = [];
   private spreadsheetId: string;
   private spreadsheetRange: string;
 
@@ -16,7 +19,7 @@ export class GoogleDocsService {
 
   initialize() {
     this.spreadsheetId = '105iGnPdzCthLGRrzu1Ve9hM2fTGrkdcAgA0j1EdEcIQ';
-    this.spreadsheetRange = 'Inputpaper!A2:E';
+    this.spreadsheetRange = 'Agenda 28.11.17!A3:D';
 
     this.loadScriptOnHead('GOOGLE',
       'https://apis.google.com/js/api.js',
@@ -51,25 +54,48 @@ export class GoogleDocsService {
   }
 
   makeGSheetApiCall(): void {
+
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: this.spreadsheetId,
       range: this.spreadsheetRange,
     }).then(function(response) {
       const range = response.result;
       if (range.values.length > 0) {
+        const topics: Topic[] = [];
 
+        // save data to topics array
         for (let i = 0; i < range.values.length; i++) {
           const row = range.values[i];
-          // Print columns A and E, which correspond to indices 0 and 4.
-          console.log(row[0] + ', ' + row[4]);
+          // topic is in column B, time in column D
+          topics.push(new Topic(row[1], row[3]));
         }
+
+        // ToDo remove debug flag
+        console.log('google sheet api successfull');
+
+        // return updated topic array
+        return topics;
+
+
       } else {
         console.log('No data found.');
       }
     }, function(response) {
       console.log('Error: ' + response.result.error.message);
-    });
+    }).then(
+      (topics) => {
+        if (topics !== undefined) {
+          this.topics = topics;
 
+          console.log(this.getTopics());
+
+          // emit event to update topic rendering
+          this.topicsChanged.emit(this.getTopics());
+
+          // ToDo view does not render new topics !!
+        }
+      }
+    );
   }
 
 
@@ -113,7 +139,8 @@ export class GoogleDocsService {
   }
 
   getTopics(): Topic[] {
-    return this.topics;
-  }
 
+    // ToDo nur eine Kopie weitergeben siehe Tutorial-App
+    return this.topics.slice();
+  }
 }
