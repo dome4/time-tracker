@@ -36,17 +36,15 @@
         <thead>
           <tr>
             <th>Topic</th>
-            <th>Time</th>
+            <th>Estimated Time</th>
+            <th>Needed Time</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>First Topic</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td>Second Topic</td>
-            <td>2</td>
+          <tr *ngFor="let topic of topics">
+            <td>{{ topic.name }}</td>
+            <td>{{ topic.estimatedTime }}</td>
+            <td>{{ topic.neededTime }}</td>
           </tr>
         </tbody>
       </table>

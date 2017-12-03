@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {GoogleDocsService} from './google-docs.service';
 import {ClockService} from './clock.service';
 import {Lap} from './lap.model';
+import {Topic} from './topic.model';
 
 @Component({
   selector: 'app-clock',
@@ -19,6 +20,11 @@ export class ClockComponent implements OnInit {
   private stopWatch;
   private laps: Lap[];
 
+  // array with topics of the google sheet
+  private topics: Topic[];
+  // active topic
+  private activeTopicID: number;
+
   constructor(private googleService: GoogleDocsService, private clock: ClockService) { }
 
   ngOnInit() {
@@ -28,6 +34,15 @@ export class ClockComponent implements OnInit {
 
     // initialize array of laps
     this.laps = [];
+
+    // initialize array of topics
+    this.topics = [];
+    this.topics.push(new Topic('First Topic', 12));
+    this.topics.push(new Topic('Second Topic', 6));
+    this.topics.push(new Topic('Third Topic', 8));
+
+    // set first topic to active topic
+    this.activeTopicID = 0;
   }
 
   /**
@@ -93,10 +108,25 @@ export class ClockComponent implements OnInit {
     // only if stop watch is active
     if (this.stopWatch) {
 
-      this.laps.push(new Lap(this.lapStartedAt, currentTimeStamp));
+      const newLap = new Lap(this.lapStartedAt, currentTimeStamp);
+      this.laps.push(newLap);
 
       // lapStartedAt set to the currentTimeStamp
       this.lapStartedAt = currentTimeStamp;
+
+      // set lap value as needed time of a topic
+      this.topics[this.activeTopicID].neededTime = newLap.getDuration();
+
+      // ToDo do not update needed time of last topic when clicking once more on next topic
+      // raise activeTopicID if topics array is long enough
+      if (this.topics[this.activeTopicID + 1]) {
+        this.activeTopicID++;
+
+      } else {
+        console.log('end of topics');
+      }
+
+      console.log('index: ' + this.activeTopicID);
     }
   }
 }
