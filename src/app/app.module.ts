@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ClockComponent } from './clock/clock.component';
 import { GooglesheetComponent } from './googlesheet/googlesheet.component';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { GooglesheetComponent } from './googlesheet/googlesheet.component';
     GooglesheetComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,5 +3,28 @@
     <button
       (click)="signIn()"
       class="btn btn-primary">Sig In</button>
+    <button
+      (click)="signOut()"
+      class="btn btn-primary">Sig Out</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Topic</th>
+        <th>Estimated Time</th>
+        <th>Needed Time</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let topic of topics">
+        <td>{{ topic.name }}</td>
+        <td>{{ topic.estimatedTime }}</td>
+        <td>{{ topic.neededTime }}</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>

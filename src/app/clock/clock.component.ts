@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {GoogleDocsService} from './google-docs.service';
+import {GoogleDocsService} from '../googlesheet/google-docs.service';
 import {ClockService} from './clock.service';
 import {Lap} from './lap.model';
 import {Topic} from './topic.model';
@@ -8,24 +8,24 @@ import {Topic} from './topic.model';
   selector: 'app-clock',
   templateUrl: './clock.component.html',
   styleUrls: ['./clock.component.css'],
-  providers: [GoogleDocsService, ClockService]
+  providers: []
 })
 export class ClockComponent implements OnInit {
   // globalStartedAt is the beginning of the stop watch
-  private globalStartedAt: number;
+  public globalStartedAt: number;
 
   // started at is the beginning of the current lap
-  private lapStartedAt: number;
+  public lapStartedAt: number;
   private stopedAt: number;
   private stopWatch;
-  private laps: Lap[];
+  public laps: Lap[];
 
   // array with topics of the google sheet
   private topics: Topic[];
   // active topic
   private activeTopicID: number;
 
-  constructor(private googleService: GoogleDocsService, private clock: ClockService) { }
+  constructor() { }
 
   ngOnInit() {
 
