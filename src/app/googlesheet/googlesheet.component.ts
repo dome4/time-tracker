@@ -18,7 +18,7 @@ export class GooglesheetComponent implements OnInit {
     this.topics = this.gapiServerice.getTopics();
 
     // update topics if service updates them
-    this.gapiServerice.topicsChanged.subscribe(
+    this.gapiServerice.topic$.subscribe(
       (topics: Topic[]) => {
         this.topics = topics;
 

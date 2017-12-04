@@ -1,17 +1,16 @@
 import {Topic} from '../shared/topic.model';
 import {environment} from '../../environments/environment';
-import {EventEmitter} from '@angular/core';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 // Google API variable
 declare let gapi: any;
 
 export class GoogleDocsService {
 
-  topicsChanged = new EventEmitter<Topic[]>();
-
   private topics: Topic[] = [];
   private spreadsheetId: string;
   private spreadsheetRange: string;
+  public topic$ = new BehaviorSubject<Topic[]>(this.getTopics());
 
   constructor() {
     this.initialize();
@@ -63,7 +62,7 @@ export class GoogleDocsService {
       const range = response.result;
       if (range.values.length > 0) {
         // clear current topics
-        this.topics = [];
+        const topics = [];
 
         // save data to topics array
         for (let i = 0; i < range.values.length; i++) {
@@ -74,12 +73,15 @@ export class GoogleDocsService {
 
             // topic is in column B, time in column D
             // values in google sheet are minutes -> convert to millis
-            this.topics.push(new Topic(row[1], (row[3] * 60 * 1000)));
+            topics.push(new Topic(row[1], (row[3] * 60 * 1000)));
           }
         }
 
+        // set new topics
+        this.topics = topics;
+
         // emit event to update topic rendering
-        this.topicsChanged.emit(this.getTopics());
+        this.topic$.next(this.getTopics());
 
       } else {
         console.log('No data found.');
@@ -129,9 +131,11 @@ export class GoogleDocsService {
     this.spreadsheetRange = spreadsheetRange;
   }
 
+  /**
+   *  return a real copy of the topics array
+   * @returns {Topic[]}
+   */
   getTopics(): Topic[] {
-
-    // ToDo nur eine Kopie weitergeben siehe Tutorial-App
     return this.topics.slice();
   }
 }
