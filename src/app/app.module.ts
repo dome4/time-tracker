@@ -7,13 +7,15 @@ import { ClockComponent } from './clock/clock.component';
 import { GooglesheetComponent } from './googlesheet/googlesheet.component';
 import { HttpClientModule } from '@angular/common/http';
 import { GoogleDocsService } from './googlesheet/google-docs.service';
+import { NavComponent } from './nav/nav.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ClockComponent,
-    GooglesheetComponent
+    GooglesheetComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
