@@ -68,16 +68,20 @@ export class GoogleDocsService {
         // save data to topics array
         for (let i = 0; i < range.values.length; i++) {
           const row = range.values[i];
-          // topic is in column B, time in column D
-          this.topics.push(new Topic(row[1], row[3]));
+
+          console.log(row);
+
+          // check undefinded values
+          if (row[1] !== undefined && row[3] !== undefined) {
+
+            // topic is in column B, time in column D
+            // values in google sheet are minutes -> convert to millis
+            this.topics.push(new Topic(row[1], (row[3] * 60 * 1000)));
+          }
         }
 
         // emit event to update topic rendering
         this.topicsChanged.emit(this.getTopics());
-
-        // ToDo view does not render new topics !!
-        console.log('topics event emitted');
-
 
       } else {
         console.log('No data found.');

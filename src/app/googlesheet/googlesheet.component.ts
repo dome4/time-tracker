@@ -15,7 +15,7 @@ export class GooglesheetComponent implements OnInit {
   constructor(private gapiServerice: GoogleDocsService, private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    // this.topics = this.gapiServerice.getTopics();
+    this.topics = this.gapiServerice.getTopics();
 
     // update topics if service updates them
     this.gapiServerice.topicsChanged.subscribe(
@@ -34,5 +34,13 @@ export class GooglesheetComponent implements OnInit {
 
   signOut(): void {
     console.log('signed out');
+  }
+
+  highlightNeededTime(topic: Topic): object {
+    if (topic.neededTimeVsEstimatedTime()) {
+      return {'color' : 'red'};
+    } else {
+      return {'color' : 'green'};
+    }
   }
 }

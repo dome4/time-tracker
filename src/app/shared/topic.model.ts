@@ -2,6 +2,7 @@ export class Topic {
 
   /**
    *  constructor
+   *  estimatedTime and neededTime are both in millis
    * @param {string} name
    * @param {number} estimatedTime
    * @param {number} neededTime
@@ -14,5 +15,13 @@ export class Topic {
    */
   getTimeDifference() {
     return this.estimatedTime - this.neededTime;
+  }
+
+  /**
+   *  check if neededTime is bigger than estimatedTime
+   * @returns {boolean | boolean}
+   */
+  neededTimeVsEstimatedTime() {
+    return this.neededTime > this.estimatedTime ? true : false;
   }
 }
