@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {GoogleDocsService} from './google-docs.service';
 import {Topic} from '../shared/topic.model';
 
@@ -12,7 +12,7 @@ export class GooglesheetComponent implements OnInit {
 
   public topics: Topic[];
 
-  constructor(private gapiServerice: GoogleDocsService) {}
+  constructor(private gapiServerice: GoogleDocsService, private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // this.topics = this.gapiServerice.getTopics();
@@ -22,9 +22,8 @@ export class GooglesheetComponent implements OnInit {
       (topics: Topic[]) => {
         this.topics = topics;
 
-        // ToDo remove debug statements
-        console.log('event received');
-        console.log(topics);
+        // detect changes when topics data received
+        this.changeDetector.detectChanges();
       }
     );
   }
