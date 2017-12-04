@@ -69,8 +69,6 @@ export class GoogleDocsService {
         for (let i = 0; i < range.values.length; i++) {
           const row = range.values[i];
 
-          console.log(row);
-
           // check undefinded values
           if (row[1] !== undefined && row[3] !== undefined) {
 

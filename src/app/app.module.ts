@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ClockComponent } from './clock/clock.component';
 import { GooglesheetComponent } from './googlesheet/googlesheet.component';
 import { HttpClientModule } from '@angular/common/http';
+import { GoogleDocsService } from './googlesheet/google-docs.service';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [GoogleDocsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,7 +6,7 @@ import {Topic} from '../shared/topic.model';
   selector: 'app-googlesheet',
   templateUrl: './googlesheet.component.html',
   styleUrls: ['./googlesheet.component.css'],
-  providers: [GoogleDocsService]
+  providers: []
 })
 export class GooglesheetComponent implements OnInit {
 

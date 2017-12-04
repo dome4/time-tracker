@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <button
       (click)="startClock()"
       class="btn btn-primary">Start</button>
@@ -19,13 +19,5 @@
     <button
       (click)="nextTopic()"
       class="btn btn-primary">Nächstes Thema (Runde)</button>
-  </div>
-  <div class="col-md-6">
-    <h3>+ / - Zeit</h3>
-    <div>
-      <div *ngFor="let lap of laps">
-        {{ lap.getDuration() | date : 'HH:mm:ss' : 'UTC' }}
-      </div>
-    </div>
   </div>
 </div>

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Lap} from './lap.model';
 import {Topic} from '../shared/topic.model';
+import {GoogleDocsService} from '../googlesheet/google-docs.service';
 
 @Component({
   selector: 'app-clock',
@@ -23,7 +24,7 @@ export class ClockComponent implements OnInit {
   // active topic
   private activeTopicID: number;
 
-  constructor() { }
+  constructor(private gapiServerice: GoogleDocsService) { }
 
   ngOnInit() {
 
@@ -34,10 +35,14 @@ export class ClockComponent implements OnInit {
     this.laps = [];
 
     // initialize array of topics
-    this.topics = [];
-    this.topics.push(new Topic('First Topic', 12));
-    this.topics.push(new Topic('Second Topic', 6));
-    this.topics.push(new Topic('Third Topic', 8));
+    this.topics = this.gapiServerice.getTopics();
+
+    // update topics if service updates them
+    this.gapiServerice.topicsChanged.subscribe(
+      (topics: Topic[]) => {
+        this.topics = topics;
+      }
+    );
 
     // set first topic to active topic
     this.activeTopicID = 0;
