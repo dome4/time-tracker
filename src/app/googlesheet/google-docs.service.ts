@@ -58,44 +58,33 @@ export class GoogleDocsService {
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: this.spreadsheetId,
       range: this.spreadsheetRange,
-    }).then(function(response) {
+    }).then(
+      (response) => {
       const range = response.result;
       if (range.values.length > 0) {
-        const topics: Topic[] = [];
+        // clear current topics
+        this.topics = [];
 
         // save data to topics array
         for (let i = 0; i < range.values.length; i++) {
           const row = range.values[i];
           // topic is in column B, time in column D
-          topics.push(new Topic(row[1], row[3]));
+          this.topics.push(new Topic(row[1], row[3]));
         }
 
-        // ToDo remove debug flag
-        console.log('google sheet api successfull');
+        // emit event to update topic rendering
+        this.topicsChanged.emit(this.getTopics());
 
-        // return updated topic array
-        return topics;
+        // ToDo view does not render new topics !!
+        console.log('topics event emitted');
 
 
       } else {
         console.log('No data found.');
       }
-    }, function(response) {
+    }, (response) => {
       console.log('Error: ' + response.result.error.message);
-    }).then(
-      (topics) => {
-        if (topics !== undefined) {
-          this.topics = topics;
-
-          console.log(this.getTopics());
-
-          // emit event to update topic rendering
-          this.topicsChanged.emit(this.getTopics());
-
-          // ToDo view does not render new topics !!
-        }
-      }
-    );
+    });
   }
 
 

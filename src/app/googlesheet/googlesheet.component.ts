@@ -15,12 +15,15 @@ export class GooglesheetComponent implements OnInit {
   constructor(private gapiServerice: GoogleDocsService) {}
 
   ngOnInit(): void {
-    this.topics = this.gapiServerice.getTopics();
+    // this.topics = this.gapiServerice.getTopics();
 
     // update topics if service updates them
     this.gapiServerice.topicsChanged.subscribe(
       (topics: Topic[]) => {
         this.topics = topics;
+
+        // ToDo remove debug statements
+        console.log('event received');
         console.log(topics);
       }
     );
