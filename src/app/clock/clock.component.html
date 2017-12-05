@@ -1,5 +1,22 @@
-<div class="row">
-  <div class="col-md-12">
+<div class="card">
+  <div class="card-header">
+    <button
+      (click)="nextTopic()"
+      class="btn btn-primary">Next Topic</button>
+  </div>
+  <div class="card-block">
+    <div class="card-title">
+      Time Tracker
+    </div>
+    <div class="card-text">
+      <label>Start: </label>
+      {{ this.globalStartedAt | date : 'HH:mm:ss' }}
+      <br>
+      <label>Duration: </label>
+      {{ this.getGlobalDuration() | date : 'HH:mm:ss' : 'UTC'}}
+    </div>
+  </div>
+  <div class="card-footer">
     <button
       (click)="startClock()"
       class="btn btn-primary">Start</button>
@@ -9,15 +26,5 @@
     <button
       (click)="resetClock()"
       class="btn btn-primary">Reset</button>
-    <p>
-      <label>Start: </label>
-      {{ this.globalStartedAt | date : 'HH:mm:ss' }}
-      <br>
-      <label>Duration: </label>
-      {{ this.getGlobalDuration() | date : 'HH:mm:ss' : 'UTC'}}
-    </p>
-    <button
-      (click)="nextTopic()"
-      class="btn btn-primary">Nächstes Thema (Runde)</button>
   </div>
 </div>
