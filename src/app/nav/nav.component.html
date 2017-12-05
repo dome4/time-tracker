@@ -8,6 +8,23 @@
   <div class="header-actions">
     <a href="#" class="nav-link nav-icon">
       <!-- User Icon -->
+      <div
+        appDropdown
+        class="dropdown bottom-right open">
+        <button type="button" class="dropdown-toggle">
+          <!--<clr-icon shape="error" class="is-error" size="24"></clr-icon>-->
+          <!--<clr-icon shape="caret down"></clr-icon>-->
+          Menu
+        </button>
+        <div class="dropdown-menu">
+          <button
+            (click)="signIn()"
+            class="btn btn-primary">Sig In</button>
+          <button
+            (click)="signOut()"
+            class="btn btn-primary">Sig Out</button>
+        </div>
+      </div>
     </a>
   </div>
 </header>

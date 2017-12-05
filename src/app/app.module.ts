@@ -8,6 +8,7 @@ import { GooglesheetComponent } from './googlesheet/googlesheet.component';
 import { HttpClientModule } from '@angular/common/http';
 import { GoogleDocsService } from './googlesheet/google-docs.service';
 import { NavComponent } from './nav/nav.component';
+import { DropdownDirective } from './shared/dropdown.directive';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { NavComponent } from './nav/nav.component';
     AppComponent,
     ClockComponent,
     GooglesheetComponent,
-    NavComponent
+    NavComponent,
+    DropdownDirective
   ],
   imports: [
     BrowserModule,

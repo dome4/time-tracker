@@ -13,4 +13,12 @@ export class NavComponent implements OnInit {
   ngOnInit() {
   }
 
+  signIn(): void {
+
+  }
+
+  signOut(): void {
+
+  }
+
 }
